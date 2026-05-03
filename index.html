@@ -412,7 +412,7 @@ async function loadAndRender() {
     const data = await dbGetClients();
     if (data && Array.isArray(data) && data.length > 0) {
       clients = data.map(function(c) {
-        return Object.assign({}, c, { sentLog: c.sentLog ? JSON.parse(c.sentLog) : [], scheduled: !!c.scheduled, scheduledDate: c.scheduledDate||null });
+        return Object.assign({}, c, { sentLog: c.sentLog ? JSON.parse(c.sentLog) : [], scheduled: !!c.scheduled });
       });
     } else {
       clients = [];
@@ -462,7 +462,7 @@ function getStatus(c) {
 }
 
 function badge(s, c) {
-  const schedLbl = (c && c.scheduledDate) ? 'Scheduled — ' + fmtDate(c.scheduledDate) : 'Scheduled';
+  const schedLbl = 'Scheduled';
   const map = {
     overdue:    ['badge-red',   'Overdue'],
     'due-soon': ['badge-yellow', s.diff > 0 ? 'Due in '+s.diff+' days' : 'Overdue'],
@@ -607,7 +607,7 @@ function sendMessage() {
 function renderScheduleBox(c) {
   const box = document.getElementById('schedule-box');
   if (c.scheduled) {
-    box.innerHTML = '<div class="scheduled-banner"><div><p>Scheduled — ' + (c.scheduledDate ? fmtDate(c.scheduledDate) : 'Date not set') + '</p><span>Tap unmark if appointment was cancelled.</span></div><button class="btn btn-outline btn-sm" onclick="unmarkScheduled()">Unmark</button></div>';
+    box.innerHTML = '<div class="scheduled-banner"><div><p>Appointment Scheduled</p><span>Tap unmark if appointment was cancelled.</span></div><button class="btn btn-outline btn-sm" onclick="unmarkScheduled()">Unmark</button></div>';
   } else {
     box.innerHTML = '<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:16px;"><div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:10px;">Schedule Appointment</div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><input type="date" id="schedule-date-input" style="height:38px;border:1px solid #e5e7eb;border-radius:8px;padding:0 10px;font-size:14px;font-family:inherit;outline:none;color:#111827;background:#ffffff;flex:1;min-width:140px;" /><button class="btn btn-purple btn-sm" style="flex:1;min-width:160px;height:38px;" onclick="markScheduled()">Mark as Scheduled</button></div></div>';
   }
@@ -616,9 +616,8 @@ function renderScheduleBox(c) {
 async function markScheduled() {
   const c=clients.find(function(x){return x.id===activeClientId;}); if(!c)return;
   const dateInput = document.getElementById('schedule-date-input');
-  const scheduledDate = dateInput ? dateInput.value || null : null;
-  await dbUpdateClient(c.id,{scheduled:true, scheduledDate:scheduledDate});
-  c.scheduled=true; c.scheduledDate=scheduledDate;
+  await dbUpdateClient(c.id,{scheduled:true});
+  c.scheduled=true;
   const s=getStatus(c);
   document.getElementById('detail-badge').innerHTML=badge(s,c);
   renderScheduleBox(c);
@@ -626,8 +625,8 @@ async function markScheduled() {
 }
 async function unmarkScheduled(){ 
   const c=clients.find(function(x){return x.id===activeClientId;}); if(!c)return; 
-  await dbUpdateClient(c.id,{scheduled:false, scheduledDate:null}); 
-  c.scheduled=false; c.scheduledDate=null;
+  await dbUpdateClient(c.id,{scheduled:false});
+  c.scheduled=false;
   const s=getStatus(c);
   document.getElementById('detail-badge').innerHTML=badge(s,c);
   renderScheduleBox(c);
@@ -673,7 +672,7 @@ function closeAddIfBg(e){ if(e.target===document.getElementById('add-overlay'))c
 async function saveClient(){
   const fname=document.getElementById('f-fname').value.trim(); const lname=document.getElementById('f-lname').value.trim(); const install=document.getElementById('f-install').value;
   if(!fname||!lname||!install){alert('First name, last name, and install date are required.');return;}
-  const fields={"fname":fname,"lname":lname,"address":document.getElementById('f-address').value.trim(),"email":document.getElementById('f-email').value.trim(),"phone":document.getElementById('f-phone').value.trim(),"brand":document.getElementById('f-brand').value.trim(),"model":document.getElementById('f-model').value.trim(),"install":install,"lastService":document.getElementById('f-lastservice').value||null,"notes":document.getElementById('f-notes').value.trim(),"scheduled":false,"scheduledDate":null,"sentLog":"[]"};
+  const fields={"fname":fname,"lname":lname,"address":document.getElementById('f-address').value.trim(),"email":document.getElementById('f-email').value.trim(),"phone":document.getElementById('f-phone').value.trim(),"brand":document.getElementById('f-brand').value.trim(),"model":document.getElementById('f-model').value.trim(),"install":install,"lastService":document.getElementById('f-lastservice').value||null,"notes":document.getElementById('f-notes').value.trim(),"scheduled":false,"sentLog":"[]"};
   if(editingId){
     await dbUpdateClient(editingId, fields);
   } else {
