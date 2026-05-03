@@ -208,14 +208,20 @@ textarea:focus { border-color: #4a7c2f; }
     <div class="service-row">
       <div class="service-field">
         <label>Last Service Date</label>
-        <input type="date" id="d-last-service" />
+        <div class="next-date" id="d-last-service-display">—</div>
       </div>
       <div class="service-field">
         <label>Next Service Due</label>
         <div class="next-date" id="d-next-service">—</div>
       </div>
     </div>
-    <button class="save-service-btn" onclick="saveServiceDate()">Save Service Date</button>
+    <div style="border-top:1px solid #e5e7eb;padding-top:14px;margin-top:4px;">
+      <label style="display:block;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Mark Service as Completed</label>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <input type="date" id="d-last-service" style="height:38px;border:1px solid #e5e7eb;border-radius:8px;padding:0 10px;font-size:14px;font-family:inherit;outline:none;color:#111827;background:#ffffff;flex:1;min-width:140px;" />
+        <button class="save-service-btn" style="flex:1;min-width:160px;" onclick="saveServiceDate()">Mark as Completed</button>
+      </div>
+    </div>
   </div>
 
   <!-- CLIENT INFO -->
@@ -255,8 +261,11 @@ textarea:focus { border-color: #4a7c2f; }
 <div class="overlay" id="add-overlay" onclick="closeAddIfBg(event)">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title" id="add-modal-title">Add New Client</div>
-      <button class="modal-close" onclick="closeAdd()">&#x2715;</button>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button id="add-back-btn" class="modal-close" onclick="goBackToDetail()" style="display:none;">&#8592;</button>
+        <div class="modal-title" id="add-modal-title">Add New Client</div>
+      </div>
+      <button class="modal-close" onclick="closeAddFully()">&#x2715;</button>
     </div>
     <div class="modal-body">
       <div class="form-grid">
@@ -278,7 +287,7 @@ textarea:focus { border-color: #4a7c2f; }
       <div class="form-actions">
         <div id="delete-btn-wrap"></div>
         <div style="display:flex;gap:10px;">
-          <button class="btn btn-outline" onclick="closeAdd()">Cancel</button>
+          <button class="btn btn-outline" id="add-cancel-btn" onclick="goBackToDetail()" style="display:none;">Back to Client</button>
           <button class="btn btn-primary" onclick="saveClient()">Save Client</button>
         </div>
       </div>
@@ -420,10 +429,11 @@ function renderTable() {
 function fmtDate(d){ if(!d)return'—'; const p=d.split('-'); return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+ +p[2]+', '+p[0]; }
 
 function updateNextServiceDisplay() {
-  const val = document.getElementById('d-last-service').value;
+  const c = clients.find(function(x){return x.id===activeClientId;});
   const nextEl = document.getElementById('d-next-service');
-  if (!val) { nextEl.textContent = '—'; nextEl.className = 'next-date none'; return; }
-  const next = new Date(val); next.setFullYear(next.getFullYear()+1);
+  if (!c) return;
+  const next = nextServiceDate(c);
+  if (!next) { nextEl.textContent = '—'; nextEl.className = 'next-date none'; return; }
   const today = new Date(); today.setHours(0,0,0,0);
   const diff = Math.ceil((next-today)/86400000);
   nextEl.textContent = fmtDate(next.toISOString().split('T')[0]);
@@ -438,8 +448,9 @@ function openDetail(id) {
   document.getElementById('detail-badge').innerHTML=badge(s);
 
   // Service dates
-  document.getElementById('d-last-service').value=c.lastService||'';
-  document.getElementById('d-last-service').oninput=updateNextServiceDisplay;
+  document.getElementById('d-last-service-display').textContent = c.lastService ? fmtDate(c.lastService) : 'No service on record';
+  document.getElementById('d-last-service').value = new Date().toISOString().split('T')[0];
+  document.getElementById('d-last-service').oninput = updateNextServiceDisplay;
   updateNextServiceDisplay();
 
   // Scheduled banner
@@ -527,14 +538,18 @@ async function unmarkScheduled(){ const c=clients.find(function(x){return x.id==
 
 function openAddModal(){
   editingId=null; document.getElementById('add-modal-title').textContent='Add New Client';
+  document.getElementById('add-back-btn').style.display='none';
+  document.getElementById('add-cancel-btn').style.display='none';
   ['fname','lname','address','email','phone','brand','model','install','lastservice','notes'].forEach(function(f){document.getElementById('f-'+f).value='';});
   document.getElementById('delete-btn-wrap').innerHTML='';
   document.getElementById('add-overlay').classList.add('open');
 }
 function openEditFromDetail(){
   const c=clients.find(function(x){return x.id===activeClientId;}); if(!c)return;
-  editingId=c.id; closeDetail();
+  editingId=c.id;
   document.getElementById('add-modal-title').textContent='Edit Client';
+  document.getElementById('add-back-btn').style.display='flex';
+  document.getElementById('add-cancel-btn').style.display='inline-flex';
   document.getElementById('f-fname').value=c.fname||''; document.getElementById('f-lname').value=c.lname||'';
   document.getElementById('f-address').value=c.address||''; document.getElementById('f-email').value=c.email||'';
   document.getElementById('f-phone').value=c.phone||''; document.getElementById('f-brand').value=c.brand||'';
@@ -543,17 +558,29 @@ function openEditFromDetail(){
   document.getElementById('delete-btn-wrap').innerHTML='<button class="btn btn-danger btn-sm" onclick="deleteClient('+c.id+')">Delete Client</button>';
   document.getElementById('add-overlay').classList.add('open');
 }
-function closeAdd(){ document.getElementById('add-overlay').classList.remove('open'); }
+function closeAdd(){
+  document.getElementById('add-overlay').classList.remove('open');
+}
+function closeAddFully(){
+  editingId = null;
+  document.getElementById('add-overlay').classList.remove('open');
+  document.getElementById('detail-overlay').classList.remove('open');
+}
+function goBackToDetail(){
+  document.getElementById('add-overlay').classList.remove('open');
+  if (activeClientId) openDetail(activeClientId);
+}
 function closeAddIfBg(e){ if(e.target===document.getElementById('add-overlay'))closeAdd(); }
 
 async function saveClient(){
   const fname=document.getElementById('f-fname').value.trim(); const lname=document.getElementById('f-lname').value.trim(); const install=document.getElementById('f-install').value;
   if(!fname||!lname||!install){alert('First name, last name, and install date are required.');return;}
-  const fields={fname,lname,address:document.getElementById('f-address').value.trim(),email:document.getElementById('f-email').value.trim(),phone:document.getElementById('f-phone').value.trim(),brand:document.getElementById('f-brand').value.trim(),model:document.getElementById('f-model').value.trim(),install,lastService:document.getElementById('f-lastservice').value||null,notes:document.getElementById('f-notes').value.trim(),scheduled:false,sentLog:JSON.stringify([])};
+  const fields={"fname":fname,"lname":lname,"address":document.getElementById('f-address').value.trim(),"email":document.getElementById('f-email').value.trim(),"phone":document.getElementById('f-phone').value.trim(),"brand":document.getElementById('f-brand').value.trim(),"model":document.getElementById('f-model').value.trim(),"install":install,"lastService":document.getElementById('f-lastservice').value||null,"notes":document.getElementById('f-notes').value.trim(),"scheduled":false,"sentLog":"[]"};
   if(editingId){
     await dbUpdateClient(editingId, fields);
   } else {
-    await dbInsertClient(fields);
+    const result = await dbInsertClient(fields);
+    if (!result) return;
   }
   closeAdd(); await loadAndRender();
 }
