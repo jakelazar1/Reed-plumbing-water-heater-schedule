@@ -305,6 +305,7 @@ async function dbInsertClient(c) {
     body: JSON.stringify(c)
   });
   const data = await res.json();
+  if (!res.ok) { alert('Error saving client: ' + JSON.stringify(data)); return null; }
   return data[0];
 }
 
@@ -548,7 +549,7 @@ function closeAddIfBg(e){ if(e.target===document.getElementById('add-overlay'))c
 async function saveClient(){
   const fname=document.getElementById('f-fname').value.trim(); const lname=document.getElementById('f-lname').value.trim(); const install=document.getElementById('f-install').value;
   if(!fname||!lname||!install){alert('First name, last name, and install date are required.');return;}
-  const fields={fname,lname,address:document.getElementById('f-address').value.trim(),email:document.getElementById('f-email').value.trim(),phone:document.getElementById('f-phone').value.trim(),brand:document.getElementById('f-brand').value.trim(),model:document.getElementById('f-model').value.trim(),install,lastService:document.getElementById('f-lastservice').value||null,notes:document.getElementById('f-notes').value.trim(),scheduled:false};
+  const fields={fname,lname,address:document.getElementById('f-address').value.trim(),email:document.getElementById('f-email').value.trim(),phone:document.getElementById('f-phone').value.trim(),brand:document.getElementById('f-brand').value.trim(),model:document.getElementById('f-model').value.trim(),install,lastService:document.getElementById('f-lastservice').value||null,notes:document.getElementById('f-notes').value.trim(),scheduled:false,sentLog:JSON.stringify([])};
   if(editingId){
     await dbUpdateClient(editingId, fields);
   } else {
