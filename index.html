@@ -292,14 +292,14 @@ const SUPABASE_URL = 'https://elgwpoblrvcwzabryusf.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsZ3dwb2JscnZjd3phYnJ5dXNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MjUxODIsImV4cCI6MjA5MzQwMTE4Mn0.JUTMCrK4cxclMskcOZYi_4h7jF6TOMsaMP-YHlyGSf0';
 
 async function dbGetClients() {
-  const res = await fetch(SUPABASE_URL + '/rest/v1/clients?select=*&order=id.asc', {
+  const res = await fetch(SUPABASE_URL + '/rest/v1/Clients?select=*&order=id.asc', {
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
   });
   return await res.json();
 }
 
 async function dbInsertClient(c) {
-  const res = await fetch(SUPABASE_URL + '/rest/v1/clients', {
+  const res = await fetch(SUPABASE_URL + '/rest/v1/Clients', {
     method: 'POST',
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
     body: JSON.stringify(c)
@@ -310,7 +310,7 @@ async function dbInsertClient(c) {
 }
 
 async function dbUpdateClient(id, updates) {
-  await fetch(SUPABASE_URL + '/rest/v1/clients?id=eq.' + id, {
+  await fetch(SUPABASE_URL + '/rest/v1/Clients?id=eq.' + id, {
     method: 'PATCH',
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify(updates)
@@ -318,7 +318,7 @@ async function dbUpdateClient(id, updates) {
 }
 
 async function dbDeleteClient(id) {
-  await fetch(SUPABASE_URL + '/rest/v1/clients?id=eq.' + id, {
+  await fetch(SUPABASE_URL + '/rest/v1/Clients?id=eq.' + id, {
     method: 'DELETE',
     headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
   });
