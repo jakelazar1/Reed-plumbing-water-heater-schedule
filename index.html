@@ -537,8 +537,8 @@ function openDetail(id) {
   document.getElementById('d-last-service').oninput = updateNextServiceDisplay;
   updateNextServiceDisplay();
 
-  // Scheduled banner
-  document.getElementById('scheduled-banner').innerHTML=c.scheduled?'<div class="scheduled-banner"><div><p>Appointment Scheduled</p><span>Marked as scheduled for service.</span></div><button class="btn btn-outline btn-sm" onclick="unmarkScheduled()">Unmark</button></div>':'';
+  // Clear old scheduled banner (now handled by schedule-box)
+  document.getElementById('scheduled-banner').innerHTML='';
 
   // Info grid
   document.getElementById('detail-grid').innerHTML=
@@ -549,7 +549,7 @@ function openDetail(id) {
     '<div class="info-item"><label>Install Date</label><p>'+fmtDate(c.install)+'</p></div>'+
     (c.notes?'<div class="info-item full"><label>Notes</label><p>'+c.notes+'</p></div>':'');
 
-
+  renderScheduleBox(c);
 
   document.getElementById('msg-textarea').value='';
   renderSentLog(c);
