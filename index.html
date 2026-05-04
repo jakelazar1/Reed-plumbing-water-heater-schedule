@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -71,8 +70,8 @@ tr.client-row:hover td { background: #fafafa; cursor: pointer; }
 .service-box-title { font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 14px; }
 .service-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
 .service-field label { display: block; font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
-.service-field input[type=“date”] { height: 38px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 10px; font-size: 14px; font-family: inherit; outline: none; color: #111827; background: #ffffff; width: 100%; transition: border-color 0.14s; }
-.service-field input[type=“date”]:focus { border-color: #4a7c2f; }
+.service-field input[type="date"] { height: 38px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0 10px; font-size: 14px; font-family: inherit; outline: none; color: #111827; background: #ffffff; width: 100%; transition: border-color 0.14s; }
+.service-field input[type="date"]:focus { border-color: #4a7c2f; }
 .service-field .next-date { font-size: 14px; font-weight: 600; padding-top: 6px; }
 .next-date.overdue { color: #dc2626; }
 .next-date.due-soon { color: #d97706; }
@@ -137,81 +136,80 @@ textarea:focus { border-color: #4a7c2f; }
 .empty p { font-size: 15px; font-weight: 500; }
 
 @media (max-width: 768px) {
-.stats-row { grid-template-columns: repeat(3,1fr); }
-th:nth-child(3),td:nth-child(3) { display:none; }
-.service-row { grid-template-columns:1fr; }
-header { padding: 0 16px; }
-main { padding: 16px 12px; }
-.modal { border-radius: 14px; }
-.tabs .tab-btn { padding: 7px 14px; font-size: 12px; }
+  .stats-row { grid-template-columns: repeat(3,1fr); }
+  th:nth-child(3),td:nth-child(3) { display:none; }
+  .service-row { grid-template-columns:1fr; }
+  header { padding: 0 16px; }
+  main { padding: 16px 12px; }
+  .modal { border-radius: 14px; }
+  .tabs .tab-btn { padding: 7px 14px; font-size: 12px; }
 }
 @media (max-width: 540px) {
-/* Stats */
-.stats-row { grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 14px; }
-.stat-card { padding: 12px 14px; }
-.stat-value { font-size: 22px; }
-.stat-label { font-size: 10px; }
+  /* Stats */
+  .stats-row { grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 14px; }
+  .stat-card { padding: 12px 14px; }
+  .stat-value { font-size: 22px; }
+  .stat-label { font-size: 10px; }
 
-/* Header */
-header { height: auto; padding: 10px 14px; flex-wrap: wrap; gap: 10px; }
-header img { height: 36px !important; }
-.tabs { width: 100%; justify-content: center; }
-.tab-btn { flex: 1; text-align: center; }
+  /* Header */
+  header { height: auto; padding: 10px 14px; flex-wrap: wrap; gap: 10px; }
+  header img { height: 36px !important; }
+  .tabs { width: 100%; justify-content: center; }
+  .tab-btn { flex: 1; text-align: center; }
 
-/* Table */
-th:nth-child(3),td:nth-child(3),th:nth-child(4),td:nth-child(4) { display:none; }
-td { padding: 11px 10px; font-size: 13px; }
-th { padding: 10px; font-size: 10px; }
-.client-name { font-size: 13px; }
-.btn-sm { height: 30px; padding: 0 10px; font-size: 12px; }
+  /* Table */
+  th:nth-child(3),td:nth-child(3),th:nth-child(4),td:nth-child(4) { display:none; }
+  td { padding: 11px 10px; font-size: 13px; }
+  th { padding: 10px; font-size: 10px; }
+  .client-name { font-size: 13px; }
+  .btn-sm { height: 30px; padding: 0 10px; font-size: 12px; }
 
-/* Toolbar */
-.toolbar { gap: 8px; }
-.search-wrap { max-width: 100%; }
-.btn { height: 38px; font-size: 13px; }
+  /* Toolbar */
+  .toolbar { gap: 8px; }
+  .search-wrap { max-width: 100%; }
+  .btn { height: 38px; font-size: 13px; }
 
-/* Modal */
-.overlay { padding: 0; align-items: flex-end; }
-.modal { border-radius: 18px 18px 0 0; max-height: 95vh; }
-.modal-header { padding: 18px 18px 0; }
-.modal-body { padding: 16px 18px 32px; }
-.modal-title { font-size: 17px; }
+  /* Modal */
+  .overlay { padding: 0; align-items: flex-end; }
+  .modal { border-radius: 18px 18px 0 0; max-height: 95vh; }
+  .modal-header { padding: 18px 18px 0; }
+  .modal-body { padding: 16px 18px 32px; }
+  .modal-title { font-size: 17px; }
 
-/* Forms */
-.form-grid { grid-template-columns: 1fr; gap: 10px; }
-.form-group.full { grid-column: span 1; }
-.form-group input { height: 44px; font-size: 16px; } /* 16px prevents iOS zoom */
-textarea { font-size: 16px; } /* prevents iOS zoom */
+  /* Forms */
+  .form-grid { grid-template-columns: 1fr; gap: 10px; }
+  .form-group.full { grid-column: span 1; }
+  .form-group input { height: 44px; font-size: 16px; } /* 16px prevents iOS zoom */
+  textarea { font-size: 16px; } /* prevents iOS zoom */
 
-/* Info grid */
-.info-grid { grid-template-columns: 1fr; gap: 10px; }
-.info-item.full { grid-column: span 1; }
+  /* Info grid */
+  .info-grid { grid-template-columns: 1fr; gap: 10px; }
+  .info-item.full { grid-column: span 1; }
 
-/* Service box */
-.service-row { grid-template-columns: 1fr; gap: 10px; }
-.service-box { padding: 14px; }
+  /* Service box */
+  .service-row { grid-template-columns: 1fr; gap: 10px; }
+  .service-box { padding: 14px; }
 
-/* Reminder box */
-.reminder-box { padding: 14px; }
-.msg-actions { gap: 6px; }
-.msg-actions .btn { flex: 1; justify-content: center; font-size: 12px; height: 36px; }
+  /* Reminder box */
+  .reminder-box { padding: 14px; }
+  .msg-actions { gap: 6px; }
+  .msg-actions .btn { flex: 1; justify-content: center; font-size: 12px; height: 36px; }
 
-/* Detail actions */
-.detail-actions { flex-direction: column; }
-.detail-actions .btn { width: 100%; justify-content: center; }
+  /* Detail actions */
+  .detail-actions { flex-direction: column; }
+  .detail-actions .btn { width: 100%; justify-content: center; }
 
-/* Calendar */
-.cal-cell { min-height: 54px; padding: 4px; }
-.cal-event { font-size: 9px; padding: 1px 4px; }
-.cal-date { font-size: 11px; }
-.cal-month { font-size: 17px; }
-.cal-day-hdr { font-size: 9px; }
+  /* Calendar */
+  .cal-cell { min-height: 54px; padding: 4px; }
+  .cal-event { font-size: 9px; padding: 1px 4px; }
+  .cal-date { font-size: 11px; }
+  .cal-month { font-size: 17px; }
+  .cal-day-hdr { font-size: 9px; }
 
-/* Sent log */
-.sent-log-wrap { flex-direction: column; align-items: flex-start; }
+  /* Sent log */
+  .sent-log-wrap { flex-direction: column; align-items: flex-start; }
 }
 </style>
-
 </head>
 <body>
 
@@ -259,7 +257,6 @@ textarea { font-size: 16px; } /* prevents iOS zoom */
 </main>
 
 <!-- DETAIL MODAL -->
-
 <div class="overlay" id="detail-overlay" onclick="closeDetailIfBg(event)">
   <div class="modal">
     <div class="modal-header">
@@ -271,65 +268,61 @@ textarea { font-size: 16px; } /* prevents iOS zoom */
     </div>
     <div class="modal-body">
 
-```
-  <div id="scheduled-banner"></div>
-  <div id="schedule-box"></div>
+      <div id="scheduled-banner"></div>
+      <div id="schedule-box"></div>
 
-  <!-- SERVICE BOX -->
-  <div class="service-box">
-    <div class="service-box-title">Service Dates</div>
-    <div class="service-row">
-      <div class="service-field">
-        <label>Last Service Date</label>
-        <div class="next-date" id="d-last-service-display">—</div>
+      <!-- SERVICE BOX -->
+      <div class="service-box">
+        <div class="service-box-title">Service Dates</div>
+        <div class="service-row">
+          <div class="service-field">
+            <label>Last Service Date</label>
+            <div class="next-date" id="d-last-service-display">—</div>
+          </div>
+          <div class="service-field">
+            <label>Next Service Due</label>
+            <div class="next-date" id="d-next-service">—</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid #e5e7eb;padding-top:14px;margin-top:4px;">
+          <label style="display:block;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Mark Service as Completed</label>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <input type="date" id="d-last-service" style="height:38px;border:1px solid #e5e7eb;border-radius:8px;padding:0 10px;font-size:14px;font-family:inherit;outline:none;color:#111827;background:#ffffff;flex:1;min-width:140px;" />
+            <button class="save-service-btn" style="flex:1;min-width:160px;" onclick="saveServiceDate()">Mark as Completed</button>
+          </div>
+        </div>
       </div>
-      <div class="service-field">
-        <label>Next Service Due</label>
-        <div class="next-date" id="d-next-service">—</div>
+
+      <!-- CLIENT INFO -->
+      <div class="info-grid" id="detail-grid"></div>
+      <hr class="divider" />
+
+      <!-- REMINDER BOX -->
+      <div class="reminder-box">
+        <div class="reminder-box-title">Send Maintenance Reminder</div>
+        <div class="msg-type-row">
+          <button class="msg-type-btn active" id="msg-email-btn" onclick="setMsgType('email')">Email</button>
+          <button class="msg-type-btn" id="msg-sms-btn" onclick="setMsgType('sms')">SMS</button>
+        </div>
+        <textarea id="msg-textarea" placeholder="Type a message or click Generate to draft one with AI..."></textarea>
+        <div class="msg-actions">
+          <button class="btn btn-outline btn-sm" id="gen-btn" onclick="generateMessage()">Generate with AI</button>
+          <button class="btn btn-outline btn-sm" onclick="sendMessage()">Open in Mail / Messages</button>
+          <button class="btn btn-blue btn-sm" onclick="markReminderSent()">Mark Reminder as Sent</button>
+        </div>
+        <div class="sent-log-wrap" id="sent-log"></div>
       </div>
-    </div>
-    <div style="border-top:1px solid #e5e7eb;padding-top:14px;margin-top:4px;">
-      <label style="display:block;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Mark Service as Completed</label>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <input type="date" id="d-last-service" style="height:38px;border:1px solid #e5e7eb;border-radius:8px;padding:0 10px;font-size:14px;font-family:inherit;outline:none;color:#111827;background:#ffffff;flex:1;min-width:140px;" />
-        <button class="save-service-btn" style="flex:1;min-width:160px;" onclick="saveServiceDate()">Mark as Completed</button>
+
+      <!-- BOTTOM ACTIONS -->
+      <div class="detail-actions">
+        <button class="btn btn-outline btn-sm" onclick="openEditFromDetail()">Edit Client Info</button>
       </div>
+
     </div>
-  </div>
-
-  <!-- CLIENT INFO -->
-  <div class="info-grid" id="detail-grid"></div>
-  <hr class="divider" />
-
-  <!-- REMINDER BOX -->
-  <div class="reminder-box">
-    <div class="reminder-box-title">Send Maintenance Reminder</div>
-    <div class="msg-type-row">
-      <button class="msg-type-btn active" id="msg-email-btn" onclick="setMsgType('email')">Email</button>
-      <button class="msg-type-btn" id="msg-sms-btn" onclick="setMsgType('sms')">SMS</button>
-    </div>
-    <textarea id="msg-textarea" placeholder="Type a message or click Generate to draft one with AI..."></textarea>
-    <div class="msg-actions">
-      <button class="btn btn-outline btn-sm" id="gen-btn" onclick="generateMessage()">Generate with AI</button>
-      <button class="btn btn-outline btn-sm" onclick="sendMessage()">Open in Mail / Messages</button>
-      <button class="btn btn-blue btn-sm" onclick="markReminderSent()">Mark Reminder as Sent</button>
-    </div>
-    <div class="sent-log-wrap" id="sent-log"></div>
-  </div>
-
-  <!-- BOTTOM ACTIONS -->
-  <div class="detail-actions">
-    <button class="btn btn-outline btn-sm" onclick="openEditFromDetail()">Edit Client Info</button>
-  </div>
-
-</div>
-```
-
   </div>
 </div>
 
 <!-- ADD / EDIT MODAL -->
-
 <div class="overlay" id="add-overlay" onclick="closeAddIfBg(event)">
   <div class="modal">
     <div class="modal-header">
@@ -412,7 +405,7 @@ async function loadAndRender() {
     const data = await dbGetClients();
     if (data && Array.isArray(data) && data.length > 0) {
       clients = data.map(function(c) {
-        return Object.assign({}, c, { sentLog: c.sentLog ? JSON.parse(c.sentLog) : [], scheduled: !!c.scheduled });
+        return Object.assign({}, c, { sentLog: c.sentLog ? JSON.parse(c.sentLog) : [], scheduled: !!c.scheduled, scheduledDate: c.scheduledDate||null });
       });
     } else {
       clients = [];
@@ -435,6 +428,16 @@ let editingId = null, activeClientId = null, msgType = 'email', activeFilter = '
 let calYear, calMonth;
 
 function nextServiceDate(c) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  // If scheduled in the future, show scheduled date as the "next" date
+  if (c.scheduled && c.scheduledDate) {
+    const schedDate = new Date(c.scheduledDate);
+    if (schedDate >= today) return schedDate;
+    // Scheduled date passed - use scheduledDate as base for next annual service
+    const d = new Date(c.scheduledDate);
+    d.setFullYear(d.getFullYear() + 1);
+    return d;
+  }
   const base = c.lastService || c.install;
   if (!base) return null;
   const d = new Date(base);
@@ -443,8 +446,16 @@ function nextServiceDate(c) {
 }
 
 function getStatus(c) {
-  if (c.scheduled) return { status:'scheduled', diff:0 };
   const today = new Date(); today.setHours(0,0,0,0);
+
+  // If scheduled in the future, show as scheduled
+  if (c.scheduled && c.scheduledDate) {
+    const schedDate = new Date(c.scheduledDate);
+    const diff = Math.ceil((schedDate - today) / 86400000);
+    if (diff >= 0) return { status:'scheduled', diff, scheduledDate: c.scheduledDate };
+    // Scheduled date has passed — treat as overdue if not completed
+  }
+
   const next = nextServiceDate(c);
   if (!next) return { status:'no-record', diff:null };
   const diff = Math.ceil((next - today) / 86400000);
@@ -672,7 +683,7 @@ function closeAddIfBg(e){ if(e.target===document.getElementById('add-overlay'))c
 async function saveClient(){
   const fname=document.getElementById('f-fname').value.trim(); const lname=document.getElementById('f-lname').value.trim(); const install=document.getElementById('f-install').value;
   if(!fname||!lname||!install){alert('First name, last name, and install date are required.');return;}
-  const fields={"fname":fname,"lname":lname,"address":document.getElementById('f-address').value.trim(),"email":document.getElementById('f-email').value.trim(),"phone":document.getElementById('f-phone').value.trim(),"brand":document.getElementById('f-brand').value.trim(),"model":document.getElementById('f-model').value.trim(),"install":install,"lastService":document.getElementById('f-lastservice').value||null,"notes":document.getElementById('f-notes').value.trim(),"scheduled":false,"sentLog":"[]"};
+  const fields={"fname":fname,"lname":lname,"address":document.getElementById('f-address').value.trim(),"email":document.getElementById('f-email').value.trim(),"phone":document.getElementById('f-phone').value.trim(),"brand":document.getElementById('f-brand').value.trim(),"model":document.getElementById('f-model').value.trim(),"install":install,"lastService":document.getElementById('f-lastservice').value||null,"notes":document.getElementById('f-notes').value.trim(),"scheduled":false,"scheduledDate":null,"sentLog":"[]"};
   if(editingId){
     await dbUpdateClient(editingId, fields);
   } else {
@@ -705,6 +716,5 @@ function switchTab(tab,btn){ document.querySelectorAll('.page').forEach(function
 function renderAll(){ renderStats(); renderTable(); }
 loadAndRender();
 </script>
-
 </body>
 </html>
