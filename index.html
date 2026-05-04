@@ -617,31 +617,50 @@ function sendMessage() {
 
 function renderScheduleBox(c) {
   const box = document.getElementById('schedule-box');
-  if (c.scheduled) {
-    box.innerHTML = '<div class="scheduled-banner"><div><p>Appointment Scheduled</p><span>Tap unmark if appointment was cancelled.</span></div><button class="btn btn-outline btn-sm" onclick="unmarkScheduled()">Unmark</button></div>';
+  if (!box) return;
+  // Show scheduled state if client is scheduled AND date is in the future
+  const today = new Date(); today.setHours(0,0,0,0);
+  const schedDate = c.scheduledDate ? new Date(c.scheduledDate) : null;
+  if (c.scheduled && schedDate && schedDate >= today) {
+    box.innerHTML =
+      '<div class="service-box" style="background:#f5f3ff;border-color:#ddd6fe;margin-bottom:16px;">' +
+        '<div class="service-box-title" style="color:#7c3aed;">Appointment Scheduled — ' + fmtDate(c.scheduledDate) + '</div>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">' +
+          '<button class="btn btn-primary btn-sm" onclick="markCompleted()">Mark as Completed</button>' +
+          '<button class="btn btn-outline btn-sm" onclick="unmarkScheduled()">Cancel Appointment</button>' +
+        '</div>' +
+      '</div>';
   } else {
-    box.innerHTML = '<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin-bottom:16px;"><div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:10px;">Schedule Appointment</div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><input type="date" id="schedule-date-input" style="height:38px;border:1px solid #e5e7eb;border-radius:8px;padding:0 10px;font-size:14px;font-family:inherit;outline:none;color:#111827;background:#ffffff;flex:1;min-width:140px;" /><button class="btn btn-purple btn-sm" style="flex:1;min-width:160px;height:38px;" onclick="markScheduled()">Mark as Scheduled</button></div></div>';
+    box.innerHTML =
+      '<div class="service-box" style="margin-bottom:16px;">' +
+        '<div class="service-box-title">Schedule an Appointment</div>' +
+        '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;">' +
+          '<input type="date" id="schedule-date-input" style="height:38px;border:1px solid #e5e7eb;border-radius:8px;padding:0 10px;font-size:14px;font-family:inherit;outline:none;color:#111827;background:#ffffff;flex:1;min-width:140px;" />' +
+          '<button class="btn btn-purple btn-sm" style="height:38px;" onclick="markScheduled()">Mark as Scheduled</button>' +
+        '</div>' +
+      '</div>';
   }
 }
 
 async function markScheduled() {
-  const c=clients.find(function(x){return x.id===activeClientId;}); if(!c)return;
-  const dateInput = document.getElementById('schedule-date-input');
-  await dbUpdateClient(c.id,{scheduled:true});
-  c.scheduled=true;
-  const s=getStatus(c);
-  document.getElementById('detail-badge').innerHTML=badge(s,c);
-  renderScheduleBox(c);
-  renderAll();
+  const c = clients.find(function(x){return x.id===activeClientId;}); if(!c)return;
+  const input = document.getElementById('schedule-date-input');
+  if (!input || !input.value) { alert('Please select an appointment date first.'); return; }
+  await dbUpdateClient(c.id, {scheduled:true, scheduledDate:input.value});
+  closeDetail(); await loadAndRender();
 }
-async function unmarkScheduled(){ 
-  const c=clients.find(function(x){return x.id===activeClientId;}); if(!c)return; 
-  await dbUpdateClient(c.id,{scheduled:false});
-  c.scheduled=false;
-  const s=getStatus(c);
-  document.getElementById('detail-badge').innerHTML=badge(s,c);
-  renderScheduleBox(c);
-  renderAll();
+
+async function markCompleted() {
+  const c = clients.find(function(x){return x.id===activeClientId;}); if(!c)return;
+  const completionDate = c.scheduledDate || new Date().toISOString().split('T')[0];
+  await dbUpdateClient(c.id, {scheduled:false, scheduledDate:null, lastService:completionDate});
+  closeDetail(); await loadAndRender();
+}
+
+async function unmarkScheduled() {
+  const c = clients.find(function(x){return x.id===activeClientId;}); if(!c)return;
+  await dbUpdateClient(c.id, {scheduled:false, scheduledDate:null});
+  closeDetail(); await loadAndRender();
 }
 
 function openAddModal(){
